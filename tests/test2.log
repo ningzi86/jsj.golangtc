@@ -1,0 +1,10 @@
+[2017/04/05 10:49:06 CST] [DEBG] (command-line-arguments.Test_log4go01:14) the time is now :213 -- sad
+[2017/04/05 10:49:06 CST] [EROR] (command-line-arguments.Test_log4go01:15) this Error
+[2017/04/05 10:49:53 CST] [DEBG] (command-line-arguments.Test_Signal:28) WriteMessage
+[2017/04/05 10:50:04 CST] [DEBG] (command-line-arguments.Test_Signal:28) WriteMessage
+[2017/04/05 10:50:06 CST] [DEBG] (command-line-arguments.Test_Signal:36) Got signal:%!(EXTRA syscall.Signal=interrupt)
+[2017/04/05 10:50:13 CST] [DEBG] (command-line-arguments.Test_Signal:28) WriteMessage
+[2017/04/05 10:50:18 CST] [DEBG] (command-line-arguments.Test_Signal:36) Got signal:%!(EXTRA syscall.Signal=interrupt)
+[2017/04/05 10:51:25 CST] [DEBG] (command-line-arguments.Test_Signal:28) WriteMessage
+[2017/04/05 10:51:27 CST] [DEBG] (command-line-arguments.Test_Signal:36) Got signal:%!(EXTRA syscall.Signal=interrupt)
+[2017/04/05 10:51:45 CST] [DEBG] (command-line-arguments.Test_Signal:28) WriteMessage

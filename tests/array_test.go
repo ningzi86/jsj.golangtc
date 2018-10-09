@@ -64,3 +64,20 @@ func Test_Array02(t *testing.T) {
 	fmt.Println(slice2)
 
 }
+
+
+
+func Test_Array03(t *testing.T) {
+
+	arr1 := [5]int{1, 2, 3, 4, 5}
+
+	fc := func(a [5]int) {
+		a[0] = 100
+		fmt.Println(a)
+	}
+
+	//数组拷贝,可以理解为值类型
+	fc(arr1)
+	fmt.Println(arr1)
+
+}

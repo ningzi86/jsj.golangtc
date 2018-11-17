@@ -193,12 +193,12 @@ func _Test_chan10(t *testing.T) {
 	}
 
 	urls := []string{
-		"http://www.baidu.com",
-		"http://www.jsj.com.cn",
-		"http://www.sina.com.cn",
-		"http://www.baidu.com",
-		"http://www.jsj.com.cn",
-		"http://www.sina.com.cn",
+		"crawler://www.baidu.com",
+		"crawler://www.jsj.com.cn",
+		"crawler://www.sina.com.cn",
+		"crawler://www.baidu.com",
+		"crawler://www.jsj.com.cn",
+		"crawler://www.sina.com.cn",
 	}
 
 	varChan := make(chan Res, len(urls))
@@ -238,9 +238,9 @@ func Test_chan11(t *testing.T) {
 	}
 
 	urls := []string{
-		"http://www.baidu.com",
-		"http://www.jsj.com.cn",
-		"http://www.sina.com.cn",
+		"crawler://www.baidu.com",
+		"crawler://www.jsj.com.cn",
+		"crawler://www.sina.com.cn",
 	}
 
 	chs := make([]chan Res, len(urls))

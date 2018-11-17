@@ -1,7 +1,10 @@
 package tests
 
 import "testing"
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 /*
 
@@ -62,15 +65,15 @@ func Test_Slice012(t *testing.T) {
 	slice1_2 := slice1[1:2]
 	fc(slice1, 101)
 
-	fmt.Println(slice1, cap(slice1))
-	fmt.Println(slice1_2, cap(slice1_2))
+	fmt.Println(slice1, cap(slice1))	// 1,101,3, 3
+	fmt.Println(slice1_2, cap(slice1_2))	// 101, 2
 
 	//append后，slice的cap变大，指向新的内存地址，所以slice1_2值不会再改变
 	slice1 = append(slice1, 4)
-	fc(slice1, 101)
+	fc(slice1, 102)
 
-	fmt.Println(slice1, cap(slice1))
-	fmt.Println(slice1_2, cap(slice1_2), slice1_2[0:2])
+	fmt.Println(slice1, cap(slice1))	//1, 102, 3, 4, 6
+	fmt.Println(slice1_2, cap(slice1_2), slice1_2[0:2]) // 101, 2, 101,3
 }
 
 func Test_Slice013(t *testing.T) {
@@ -122,5 +125,22 @@ func Test_Slice014(t *testing.T) {
 	s := make([]int, 3, 10)
 
 	fmt.Println(s, len(s), cap(s))
+
+}
+
+func Test_Slice015(t *testing.T) {
+
+	var a1 []int
+	var a2 []int
+
+	a1 = append(a1, 0)
+
+	a2 = append(a2, 1, 2, 3)
+	a2 = append(a2, a1...)
+	fmt.Println(a1, a2)
+
+	sort.Ints(a2)
+
+	fmt.Println(a1, a2)
 
 }

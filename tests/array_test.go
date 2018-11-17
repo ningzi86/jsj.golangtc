@@ -1,7 +1,10 @@
 package tests
 
 import "testing"
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 /*
 数组 Arrays
@@ -63,6 +66,29 @@ func Test_Array02(t *testing.T) {
 	fmt.Println(slice1)
 	fmt.Println(slice2)
 
+}
+
+
+func Benchmark_findByPk(b *testing.B) {
+	for i := 0; i < b.N; i++ { //use b.N for looping
+		/*数组，值类型*/
+		arr1 := [5]int{1, 2, 3, 4, 5}
+		arr2 := arr1
+
+		arr1[3] = 10
+		fmt.Println(arr1)
+		fmt.Println(arr2)
+
+		/*切片，引用类型*/
+		slice1 := []int{1, 2, 3, 4, 5}
+		slice2 := slice1
+
+		slice1[3] = 10
+		fmt.Println(slice1)
+		fmt.Println(slice2)
+
+		time.Sleep(1*time.Second)
+	}
 }
 
 

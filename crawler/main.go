@@ -9,8 +9,8 @@ import (
 func main() {
 
 	ex := engine.ConcurrentEngine{
-		WorkerCount: 10,
-		Scheduler:   &scheduler.SimpleScheduler{},
+		WorkerCount: 1,
+		Scheduler:   &scheduler.QueuedScheduler{},
 	}
 
 	ex.Run(engine.Request{

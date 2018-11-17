@@ -1,6 +1,8 @@
 package engine
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type ConcurrentEngine struct {
 	WorkerCount int
@@ -10,30 +12,30 @@ type ConcurrentEngine struct {
 type Scheduler interface {
 	Submit(Request)
 	ConfigerMasterWorkerChan(chan Request)
+	WorkerReady(chan Request)
+	Run()
 }
 
 func (e ConcurrentEngine) Run(seeds ...Request) {
 
-	in := make(chan Request)
 	out := make(chan ParseResult)
-
-	e.Scheduler.ConfigerMasterWorkerChan(in)
+	e.Scheduler.Run()
 
 	for _, r := range seeds {
+		fmt.Println("0.发现一个请求")
 		e.Scheduler.Submit(r)
 	}
 
 	for i := 0; i <= e.WorkerCount; i++ {
-		createWorker(in, out)
+		createWorker(out, e.Scheduler)
 	}
 
 	itemCount := 0
 	for {
 		itemCount++
-
 		result := <-out
 		for _, item := range result.Items {
-			fmt.Printf("Got item #%d: %v", itemCount, item)
+			fmt.Printf("Got item #%d: %v\n", itemCount, item)
 		}
 
 		for _, request := range result.Request {
@@ -42,9 +44,12 @@ func (e ConcurrentEngine) Run(seeds ...Request) {
 	}
 }
 
-func createWorker(in chan Request, out chan ParseResult) {
+func createWorker(out chan ParseResult, s Scheduler) {
+	in := make(chan Request)
 	go func() {
 		for {
+
+			s.WorkerReady(in)
 			request := <-in
 			result, err := worker(request)
 			if err != nil {

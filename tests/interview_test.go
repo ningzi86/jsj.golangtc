@@ -36,8 +36,15 @@ func Test_Two(t *testing.T) {
 		{Name: "li", Age: 23},
 		{Name: "wang", Age: 22},
 	}
+	//for _, stu := range stus {
+	//	m[stu.Name] = &stu
+	//}
+
 	for _, stu := range stus {
-		m[stu.Name] = &stu
+		m[stu.Name] = &student{
+			Name: stu.Name,
+			Age:  stu.Age,
+		}
 	}
 
 	for k, v := range m {

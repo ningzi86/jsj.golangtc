@@ -3,8 +3,6 @@ package engine
 import (
 	"jsj.golangtc/crawler/fetcher"
 	"log"
-	"strings"
-	"io/ioutil"
 )
 
 type SimpleEngine struct{}
@@ -36,23 +34,21 @@ func (SimpleEngine) Run(seeds ...Request) {
 
 func worker(r Request) (ParseResult, error) {
 
-	log.Printf("Fetching %s", r.Url)
-
 	var bytes []byte
 	var err error
 
-	if strings.HasPrefix(r.Url, "http://album.zhenai.com/u/") {
-		bytes, err = ioutil.ReadFile(`crawler/zhenai/parser/user.in`)
-		if err != nil {
-			return ParseResult{}, err
-		}
-	} else {
-		bytes, err = fetcher.Fetch(r.Url)
-		if err != nil {
-			log.Printf("Fetcher: error fetching url %s: %v", r.Url, err)
-			return ParseResult{}, err
-		}
+	//if strings.HasPrefix(r.Url, "http://album.zhenai.com/u/") {
+	//	bytes, err = ioutil.ReadFile(`crawler/zhenai/parser/user.in`)
+	//	if err != nil {
+	//		return ParseResult{}, err
+	//	}
+	//} else {
+	bytes, err = fetcher.Fetch(r.Url)
+	if err != nil {
+		log.Printf("Fetcher: error fetching url %s: %v", r.Url, err)
+		return ParseResult{}, err
 	}
+	//}
 
 	parseResult := r.ParserFunc(bytes)
 	return parseResult, nil

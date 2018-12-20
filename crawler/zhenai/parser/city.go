@@ -5,7 +5,7 @@ import (
 	"jsj.golangtc/crawler/zhenai/engine"
 )
 
-var cityRe = regexp.MustCompile(`<a href="(http://album.zhenai.com/u/[0-9]+)"[^>]*>([^<]+)</a>`)
+var cityRe = regexp.MustCompile(`<a href="(http://album.zhenai.com/u/([0-9]+))"[^>]*>([^<]+)</a>`)
 
 func ParseCity(contents []byte) (engine.ParseResult) {
 
@@ -15,11 +15,13 @@ func ParseCity(contents []byte) (engine.ParseResult) {
 	index := 0
 
 	for _, m := range matches {
-		name := string(m[2])
-		result.Items = append(result.Items, "User "+name)
+		name := string(m[3])
+		url := string(m[1])
+		id := string(m[2])
+		//result.Items = append(result.Items, "User "+name)
 		result.Request = append(result.Request, engine.Request{Url: string(m[1]),
 			ParserFunc: func(contents []byte) engine.ParseResult {
-				return ParseProfile(contents, name)
+				return ParseProfile(contents, name, url, id)
 			},
 		})
 

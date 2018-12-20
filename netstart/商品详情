@@ -1,0 +1,43 @@
+
+
+https://star.8.163.com/api/goods/detail
+
+Host: star.8.163.com
+Connection: keep-alive
+Content-Length: 42
+Accept: application/json, text/plain, */*
+Origin: https://star.8.163.com
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 9; EML-AL00 Build/HUAWEIEML-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.91 Mobile Safari/537.36 hybrid/1.0.0 star_client_info_begin {hybridVersion: "1.0.0",clientVersion: "1.8.1",accountId: "a1d823382b7f23ed568eedc68c556908b2f5fbe29a13313c1d052a66742fbd65",channel: "e01170001"}star_client_info_end
+Content-Type: application/json;charset=UTF-8
+Referer: https://star.8.163.com/m
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,en-US;q=0.9
+Cookie: STAREIG=c8d7e0816ea86e47861ca4eb39c809c2345d437e; NTES_YD_SESS=VbsoxtV31Dfpv5mbwI3kMLI4TKpSmmr.XG6DhldVqDKPzSAkzfcxNLfNW52f.Cvt3DHRrMYSBAmUH1BvUphe7e53qnU2uA0LoLYtTf50ZKIkGkcEgbWw.6UjqfCGFArSUk4sM3JJIhcURe1q4uF4Mp5XgKt_mhGJkkj8Fxy8_bKBxmZR812yE4NlKicjK5E9.1vrRUrJ0anUMSEtOR.Y8IT_mwj.B7.R6OBPPFinS9W.W; STAR_YD_SESS=VbsoxtV31Dfpv5mbwI3kMLI4TKpSmmr.XG6DhldVqDKPzSAkzfcxNLfNW52f.Cvt3DHRrMYSBAmUH1BvUphe7e53qnU2uA0LoLYtTf50ZKIkGkcEgbWw.6UjqfCGFArSUk4sM3JJIhcURe1q4uF4Mp5XgKt_mhGJkkj8Fxy8_bKBxmZR812yE4NlKicjK5E9.1vrRUrJ0anUMSEtOR.Y8IT_mwj.B7.R6OBPPFinS9W.W
+
+
+{"goodsNumber":"120001541578607296840660"}
+
+
+{
+    "code": 200,
+    "msg": "请求成功",
+    "data": {
+        "merchantName": "网易星球官方",
+        "merchantLogo": null,
+        "goodsNumber": "120001541578607296840660",
+        "goodsName": "网易考拉工厂店100减15元优惠券",
+        "goodsDesc": "【注：虚拟商品支持全国发货，拍下地址随意填写，线上发货】
+        "nbdPrice": 0.01,
+        "preSaleTime": 1541579400000,
+        "saleTime": 1541728800000,
+        "stockCount": 8350,
+        "shopTimes": 0,
+        "payTimes": 0,
+        "goodsStatus": 2,
+        "buyToken": "c06d9e4f-9d19-4985-8b62-7901a41db1af719132",
+        "currentTime": 1545267833812,
+        "sellerType": 1,
+        "goodsExLink": null
+    }
+}

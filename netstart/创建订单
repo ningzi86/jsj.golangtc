@@ -1,0 +1,103 @@
+
+
+https://star.8.163.com/api/order/buy
+
+Host: star.8.163.com
+Connection: keep-alive
+Content-Length: 116
+Accept: application/json, text/plain, */*
+Origin: https://star.8.163.com
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 9; EML-AL00 Build/HUAWEIEML-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.91 Mobile Safari/537.36 hybrid/1.0.0 star_client_info_begin {hybridVersion: "1.0.0",clientVersion: "1.8.1",accountId: "ab09afc1788e2737ac8d7c464dcb7f2cf2f69a8e4b1c0dd49c11759348539bb9",channel: "e01170001"}star_client_info_end
+Content-Type: application/json;charset=UTF-8
+Referer: https://star.8.163.com/m
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,en-US;q=0.9
+Cookie: NTES_YD_SESS=OGT5Yf74YX5NkjGKBe.CailyKe.3SDQ8Mq0MxFZOlM9Ia7s5atXR4y.mEK3avpCXpu6Lz81NSXmo2SwuGq1UOGwxfmuWSpa2vf3RwM6TAx53mB4IjQXoZB8Tlt.qGsE7_5iKk2mm6xX_bufliSGikdDzv9QBrxqm5cbCV7huQi55o_mfwYlE.wzWrdo8ueFi.dwRU9yue0EpNOno3v9LbAZq90QG.8InuDCUdVeP7p90n; STAR_YD_SESS=OGT5Yf74YX5NkjGKBe.CailyKe.3SDQ8Mq0MxFZOlM9Ia7s5atXR4y.mEK3avpCXpu6Lz81NSXmo2SwuGq1UOGwxfmuWSpa2vf3RwM6TAx53mB4IjQXoZB8Tlt.qGsE7_5iKk2mm6xX_bufliSGikdDzv9QBrxqm5cbCV7huQi55o_mfwYlE.wzWrdo8ueFi.dwRU9yue0EpNOno3v9LbAZq90QG.8InuDCUdVeP7p90n; mail_psc_fingerprint=c75dfde6e42f7a25fb99b09e1d3a4720; _ga=GA1.2.459119499.1538527418; UM_distinctid=166376187b31e0-06f766dd4ffa55-70624200-41be0-166376187b4148; STAREIG=050e9c6dee6f7f798536aa357967f77b78b3bce1; mp_MA-AF7C-B137646D6BBB_hubble=%7B%22sessionReferrer%22%3A%20%22%22%2C%22updatedTime%22%3A%201544531994505%2C%22sessionStartTime%22%3A%201544531984883%2C%22deviceUdid%22%3A%20%22976ee96f-5b6a-45ab-8563-eabd2c4cea07%22%2C%22persistedTime%22%3A%201538527417478%2C%22LASTEVENT%22%3A%20%7B%22eventId%22%3A%20%22da_u_login%22%2C%22time%22%3A%201544531994506%7D%2C%22sessionUuid%22%3A%20%220188a839-2afa-4c23-918a-fa9accbaca77%22%2C%22user_id%22%3A%20%2268AF18D314C3B8A2E71023C41D8ACBA6E8CF62411BBA5C23372D06D39D6F1396%22%2C%22superProperties%22%3A%20%7B%22env%22%3A%20%22browser%22%2C%22channel%22%3A%20%22star%22%2C%22product%22%3A%20%22product_mucfc2.0%22%7D%2C%22currentReferrer%22%3A%20%22https%3A%2F%2Flq.163.com%2Fplatform%2Fopen-activate.html%23%2FIdCardVerify%3FshowProtocal%3Dtrue%22%7D
+
+
+{"goodsNumber":"120001541578607296840660","addressId":32332,"buyToken":"5e47ead5-92e5-4df0-9605-7dc8f4745483192946"}
+
+
+https://star.8.163.com/api/order/buy
+Host: star.8.163.com
+Connection: keep-alive
+Content-Length: 121
+Accept: application/json, text/plain, */*
+Origin: https://star.8.163.com
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 9; EML-AL00 Build/HUAWEIEML-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.91 Mobile Safari/537.36 hybrid/1.0.0 star_client_info_begin {hybridVersion: "1.0.0",clientVersion: "1.8.1",accountId: "ab09afc1788e2737ac8d7c464dcb7f2cf2f69a8e4b1c0dd49c11759348539bb9",channel: "e01170001"}star_client_info_end
+Content-Type: application/json;charset=UTF-8
+Referer: https://star.8.163.com/m
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,en-US;q=0.9
+Cookie: NTES_YD_SESS=OGT5Yf74YX5NkjGKBe.CailyKe.3SDQ8Mq0MxFZOlM9Ia7s5atXR4y.mEK3avpCXpu6Lz81NSXmo2SwuGq1UOGwxfmuWSpa2vf3RwM6TAx53mB4IjQXoZB8Tlt.qGsE7_5iKk2mm6xX_bufliSGikdDzv9QBrxqm5cbCV7huQi55o_mfwYlE.wzWrdo8ueFi.dwRU9yue0EpNOno3v9LbAZq90QG.8InuDCUdVeP7p90n; STAR_YD_SESS=OGT5Yf74YX5NkjGKBe.CailyKe.3SDQ8Mq0MxFZOlM9Ia7s5atXR4y.mEK3avpCXpu6Lz81NSXmo2SwuGq1UOGwxfmuWSpa2vf3RwM6TAx53mB4IjQXoZB8Tlt.qGsE7_5iKk2mm6xX_bufliSGikdDzv9QBrxqm5cbCV7huQi55o_mfwYlE.wzWrdo8ueFi.dwRU9yue0EpNOno3v9LbAZq90QG.8InuDCUdVeP7p90n; mail_psc_fingerprint=c75dfde6e42f7a25fb99b09e1d3a4720; _ga=GA1.2.459119499.1538527418; UM_distinctid=166376187b31e0-06f766dd4ffa55-70624200-41be0-166376187b4148; STAREIG=050e9c6dee6f7f798536aa357967f77b78b3bce1; mp_MA-AF7C-B137646D6BBB_hubble=%7B%22sessionReferrer%22%3A%20%22%22%2C%22updatedTime%22%3A%201544531994505%2C%22sessionStartTime%22%3A%201544531984883%2C%22deviceUdid%22%3A%20%22976ee96f-5b6a-45ab-8563-eabd2c4cea07%22%2C%22persistedTime%22%3A%201538527417478%2C%22LASTEVENT%22%3A%20%7B%22eventId%22%3A%20%22da_u_login%22%2C%22time%22%3A%201544531994506%7D%2C%22sessionUuid%22%3A%20%220188a839-2afa-4c23-918a-fa9accbaca77%22%2C%22user_id%22%3A%20%2268AF18D314C3B8A2E71023C41D8ACBA6E8CF62411BBA5C23372D06D39D6F1396%22%2C%22superProperties%22%3A%20%7B%22env%22%3A%20%22browser%22%2C%22channel%22%3A%20%22star%22%2C%22product%22%3A%20%22product_mucfc2.0%22%7D%2C%22currentReferrer%22%3A%20%22https%3A%2F%2Flq.163.com%2Fplatform%2Fopen-activate.html%23%2FIdCardVerify%3FshowProtocal%3Dtrue%22%7D
+{"goodsNumber":"300101544084595065548945","addressId":32332,"buyToken":"741bebb0-ec4c-4b98-a7c9-cc46f34104f7241041"}
+
+
+
+
+测试
+goodsNumber=300101544010915858450388
+buyToken=29e1404f-db9b-4fd5-8719-90632b3b9fd6496817
+
+售完商品
+{"goodsNumber":"300101544010915858450388","addressId":32332,"buyToken":"29e1404f-db9b-4fd5-8719-90632b3b9fd6496817"}
+{"goodsNumber":"300101544084595065548945","addressId":32332,"buyToken":"741bebb0-ec4c-4b98-a7c9-cc46f34104f7241041"}
+
+
+
+响应信息
+{"code":-24,"msg":"订单重复提交","data":null}
+{"code":200,"msg":"请求成功","data":{"result":7,"orderId":null}}
+{"code":200,"msg":"请求成功","data":{"result":6,"orderId":null}} 原力不足
+
+
+售完商品
+
+{
+    "code": 200,
+    "msg": "请求成功",
+    "data": {
+        "merchantName": "dgx",
+        "merchantLogo": null,
+        "goodsNumber": "300101544010915858450388",
+        "goodsName": "美嘉乐轻质网布情侣鞋",
+        "goodsDesc": "美嘉乐网布青少年运动鞋，鞋底采用缓震气垫，透气蜂巢网布，穿着透气轻松，便捷魔术搭扣。",
+        "nbdPrice": 29,
+        "preSaleTime": 1544672253000,
+        "saleTime": 1544752800000,
+        "stockCount": 0,
+        "shopTimes": 2,
+        "payTimes": 0,
+        "goodsStatus": 3,
+        "buyToken": "29e1404f-db9b-4fd5-8719-90632b3b9fd6496817",
+        "currentTime": 1545266947275,
+        "sellerType": 0,
+        "goodsExLink": null
+    }
+}
+
+
+{
+    "code": 200,
+    "msg": "请求成功",
+    "data": {
+        "merchantName": "网易星球官方",
+        "merchantLogo": null,
+        "goodsNumber": "120001541578607296840660",
+        "goodsName": "网易考拉工厂店100减15元优惠券",
+        "goodsDesc": "【注：虚拟商品支持全国发货，拍下地址随意填写，线上发货】。",
+        "nbdPrice": 0.01,
+        "preSaleTime": 1541579400000,
+        "saleTime": 1541728800000,
+        "stockCount": 8352,
+        "shopTimes": 2,
+        "payTimes": 0,
+        "goodsStatus": 2,
+        "buyToken": "a93921e0-99d8-4a51-a7ae-5e7d5dd6e9e6288588",
+        "currentTime": 1545267073580,
+        "sellerType": 1,
+        "goodsExLink": null
+    }
+}

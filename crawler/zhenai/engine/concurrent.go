@@ -1,19 +1,20 @@
 package engine
 
-import (
-	"fmt"
-)
-
 type ConcurrentEngine struct {
 	WorkerCount int
 	Scheduler   Scheduler
+	Item        chan Item
 }
 
 type Scheduler interface {
 	Submit(Request)
-	ConfigerMasterWorkerChan(chan Request)
-	WorkerReady(chan Request)
+	WorkerChan() chan Request
 	Run()
+	ReadyNotifier
+}
+
+type ReadyNotifier interface {
+	WorkerReady(chan Request)
 }
 
 func (e ConcurrentEngine) Run(seeds ...Request) {
@@ -22,20 +23,17 @@ func (e ConcurrentEngine) Run(seeds ...Request) {
 	e.Scheduler.Run()
 
 	for _, r := range seeds {
-		fmt.Println("0.发现一个请求")
 		e.Scheduler.Submit(r)
 	}
 
 	for i := 0; i <= e.WorkerCount; i++ {
-		createWorker(out, e.Scheduler)
+		createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
 	}
 
-	itemCount := 0
 	for {
-		itemCount++
 		result := <-out
 		for _, item := range result.Items {
-			fmt.Printf("Got item #%d: %v\n", itemCount, item)
+			go func() { e.Item <- item }()
 		}
 
 		for _, request := range result.Request {
@@ -44,12 +42,11 @@ func (e ConcurrentEngine) Run(seeds ...Request) {
 	}
 }
 
-func createWorker(out chan ParseResult, s Scheduler) {
-	in := make(chan Request)
+func createWorker(in chan Request, out chan ParseResult, ready ReadyNotifier) {
+
 	go func() {
 		for {
-
-			s.WorkerReady(in)
+			ready.WorkerReady(in)
 			request := <-in
 			result, err := worker(request)
 			if err != nil {

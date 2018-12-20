@@ -20,7 +20,7 @@ func _Test_Chan01(t *testing.T) {
 }
 
 // 创建 channel 类型对象时设置了 buffer 值
-func _Test_Chan02(t *testing.T) {
+func Test_Chan02(t *testing.T) {
 
 	varChan1 := make(chan string, 3)
 

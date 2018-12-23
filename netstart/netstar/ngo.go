@@ -137,7 +137,8 @@ func (n *Ngo) Start(dto model.GoodDto) (bool, error) {
 				return true, nil
 			}
 
-			if Env {
+			if Env == "true" {
+				fmt.Println("测试环境，退出抢购")
 				break
 			}
 

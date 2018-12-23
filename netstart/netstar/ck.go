@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-var Env bool = false
+var Env string = "false"
 
 var NetCookie string
 var AddressId int32
@@ -26,7 +26,13 @@ func init() {
 	}
 
 	AddressId = a
-	log.Println("初始化成功", NetCookie, AddressId, Env)
+
+	envName := "生产环境"
+	if Env == "true" {
+		envName = "测试环境"
+	}
+
+	log.Println("初始化成功", NetCookie, AddressId, envName)
 
 }
 

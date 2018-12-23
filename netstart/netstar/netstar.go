@@ -133,9 +133,9 @@ func ListDetail(goodsNumbers []string) (*model.GoodListDto, error) {
 
 func Detail(goodsNumber string) (*model.GoodDetailDto, error) {
 
-	if Env {
+	if Env == "true" {
 		currentTime := time.Now().Unix() * 1000
-		saleTime := int64(1545532417000 + 60*60*1.5*1000)
+		saleTime := int64(1545534788000 + 60*60*1.5*1000)
 
 		m := &model.GoodDetailDto{}
 		m.Data = model.GoodDetail{

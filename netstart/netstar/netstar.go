@@ -6,7 +6,12 @@ import (
 	"encoding/json"
 	"errors"
 	"jsj.golangtc/netstart/model"
+	"time"
 )
+
+var NetError6 = errors.New("原力不足")
+var NetError11 = errors.New("今日达到上限")
+var NetError7 = errors.New("商品已售罄")
 
 func List() ([]string, error) {
 
@@ -128,15 +133,18 @@ func ListDetail(goodsNumbers []string) (*model.GoodListDto, error) {
 
 func Detail(goodsNumber string) (*model.GoodDetailDto, error) {
 
-	//currentTime := time.Now().Unix() * 1000
-	//saleTime := int64(1545287313000 + 30*1000)
-	//
-	//m := &model.GoodDetailDto{}
-	//m.Data = model.GoodDetail{
-	//	CurrentTime: currentTime,
-	//	SaleTime:    saleTime,
-	//}
-	//return m, nil
+	if Env {
+		currentTime := time.Now().Unix() * 1000
+		saleTime := int64(1545532417000 + 60*60*1.5*1000)
+
+		m := &model.GoodDetailDto{}
+		m.Data = model.GoodDetail{
+			CurrentTime: currentTime,
+			SaleTime:    saleTime,
+			GoodsName:   "测试商品",
+		}
+		return m, nil
+	}
 
 	url := `https://star.8.163.com/api/goods/detail`
 
@@ -186,10 +194,6 @@ func Detail(goodsNumber string) (*model.GoodDetailDto, error) {
 	return dto, nil
 
 }
-
-var NetError6 = errors.New("原力不足")
-var NetError11 = errors.New("今日达到上限")
-var NetError7 = errors.New("商品已售罄")
 
 func Buy(goodsNumber, buyToken string) (string, error) {
 
@@ -344,5 +348,57 @@ func Pay(orderId string) (float64, error) {
 	}
 
 	return resultMap["payAmount"].(float64), nil
+
+}
+
+func Orders(pageNo, pageSize int32) (*model.OrderListDto, error) {
+
+	url := `https://star.8.163.com/api/order/list`
+
+	headers := `
+			Host: star.8.163.com
+			Accept: application/json, text/plain, */*
+			Origin: https://star.8.163.com
+			X-Requested-With: XMLHttpRequest
+			User-Agent: Mozilla/5.0 (Linux; Android 9; EML-AL00 Build/HUAWEIEML-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.91 Mobile Safari/537.36 hybrid/1.0.0 star_client_info_begin {hybridVersion: "1.0.0",clientVersion: "1.9.0",accountId: "ab09afc1788e2737ac8d7c464dcb7f2cf2f69a8e4b1c0dd49c11759348539bb9",channel: "e01170023"}star_client_info_end
+			Content-Type: application/json;charset=UTF-8
+			Referer: https://star.8.163.com/m
+			Accept-Encoding: gzip, deflate
+			Accept-Language: zh-CN,en-US;q=0.9
+			Cookie: %s`
+	//
+	headers = fmt.Sprintf(headers, NetCookie)
+
+	mp := map[string]interface{}{
+		"pageNo":   pageNo,
+		"pageSize": pageSize,
+	}
+
+	body, _ := json.Marshal(mp)
+
+	//fmt.Println(headers)
+	//fmt.Printf("请求数据：%s\n", body)
+
+	client := core.NewNetClient(url, "POST", headers, string(body), nil, nil, 0)
+	err := client.Do()
+
+	//fmt.Printf("响应结果：%s\n", client.ResponseBody)
+
+	if err != nil {
+		return nil, err
+	}
+
+	dto := &model.OrderListDto{}
+	err = json.Unmarshal([]byte(client.ResponseBody), &dto)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if dto.Code != 200 {
+		return nil, errors.New(dto.Msg)
+	}
+
+	return dto, nil
 
 }

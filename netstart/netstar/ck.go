@@ -7,32 +7,33 @@ import (
 	"log"
 )
 
+var Env bool = false
+
 var NetCookie string
 var AddressId int32
 
 func init() {
+
 	c, err := GetCookie()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	NetCookie = c
 
-	log.Println("Cookies", NetCookie)
-
 	a, err := GetAddress()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	AddressId = a
+	log.Println("初始化成功", NetCookie, AddressId, Env)
 
-	log.Println("AddressId", AddressId)
 }
 
 func GetCookie() (string, error) {
 
 	pwd, _ := os.Getwd()
-	path := pwd + `\config\cookies.txt`
+	path := pwd + `/config/cookies.txt`
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		return "", err
@@ -44,7 +45,7 @@ func GetCookie() (string, error) {
 func GetAddress() (int32, error) {
 
 	pwd, _ := os.Getwd()
-	path := pwd + `\config\address.txt`
+	path := pwd + `/config/address.txt`
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		return -1, err

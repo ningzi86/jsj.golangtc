@@ -136,6 +136,11 @@ func (n *Ngo) Start(dto model.GoodDto) (bool, error) {
 			if success {
 				return true, nil
 			}
+
+			if Env {
+				break
+			}
+
 			n.stopSyncTime()
 			continue
 			//}
@@ -145,9 +150,8 @@ func (n *Ngo) Start(dto model.GoodDto) (bool, error) {
 			//	utils.TimeFormat(saleTime),
 			//	goodsNumber,
 			//	goodsName)
-		}
+		} else {
 
-		if currentTime < saleTime {
 			if currentTime >= saleTime-10 {
 				for {
 					if (n.currentTime < saleTime) {
@@ -168,16 +172,62 @@ func (n *Ngo) Start(dto model.GoodDto) (bool, error) {
 				}
 				continue
 			}
-			log.Printf("当前时间：%s %s 开售时间：%s 未开始 %s %s\n",
+			log.Printf("当前时间：%s %s 开售时间：%s 剩余：%d秒 未开始 %s %s\n",
 				utils.TimeFormat(currentTime),
 				utils.TimeFormat(n.currentTime),
-				utils.TimeFormat(saleTime), goodsNumber, goodsName)
-			time.Sleep(1 * time.Second)
+				utils.TimeFormat(saleTime),
+				saleTime-currentTime,
+				goodsNumber,
+				goodsName)
+
 			n.stopSyncTime()
+
+			//30-10
+			if currentTime > saleTime-30 {
+				log.Printf("【30-10】%d秒后重试……\n", 3)
+				time.Sleep(3 * time.Second)
+				continue
+			}
+
+			//60-30
+			if currentTime > saleTime-60 {
+				log.Printf("【60-30】%d秒后重试……\n", 30)
+				time.Sleep(30 * time.Second)
+				continue
+			}
+
+			// 5*60-60
+			if currentTime > saleTime-5*60 {
+				log.Printf("【300-30】%d秒后重试……\n", 300)
+				time.Sleep(time.Minute)
+				continue
+			}
+
+			// 20*60 - 5*60
+			if currentTime > saleTime-20*60 {
+				log.Printf("【1200-300】%d分钟后重试……\n", 10)
+				time.Sleep(time.Minute * 10)
+				continue
+			}
+
+			// 60*60 - 20*60
+			if currentTime > saleTime-60*60 {
+				log.Printf("【3600-1200】%d分钟后重试……\n", 30)
+				time.Sleep(time.Minute * 30)
+				continue
+			}
+
+			log.Printf("【?-3600】%d分钟后重试……\n", 50)
+			time.Sleep(time.Minute * 50)
 			continue
 		}
 
 	}
 
 	return false, errors.New("未知错误")
+}
+
+func (Ngo) NOrders() (*model.OrderListDto, error) {
+	dto, err := Orders(1, 20)
+	return dto, err
 }

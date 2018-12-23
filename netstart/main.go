@@ -1,24 +1,65 @@
 package main
 
 import (
-	"jsj.golangtc/netstart/netstar"
 	"log"
 	"fmt"
-	"jsj.golangtc/netstart/model"
+	"os"
+	"jsj.golangtc/netstart/netstar"
 	"jsj.golangtc/netstart/utils"
+	"jsj.golangtc/netstart/model"
 )
 
 var (
 	GoodsNumber string
+	Code        string
 )
 
 func main() {
 
-	//fmt.Printf("Please enter your full name: ")
-	//fmt.Scanln(&GoodsNumber)
-	//fmt.Printf("Hi %s!\n", GoodsNumber)
+	tmp := `*********************************************************
+	1.抢购商品
+	2.查看订单
+	exit.退出
+*********************************************************`
+
+	fmt.Println()
+	fmt.Println()
+	fmt.Println(tmp)
+	fmt.Println()
+	fmt.Println()
 
 	ngo := netstar.NewNgo()
+
+	for {
+
+		fmt.Scanln(&Code)
+		exit(Code)
+		if Code != "1" && Code != "2" {
+			log.Printf("序号错误：%s", Code)
+			continue
+		}
+
+		switch Code {
+		case "1":
+			initProducts(ngo)
+			break
+		case "2":
+			initOrders(ngo)
+			break
+		}
+
+	}
+
+}
+
+func exit(Code string) {
+	if Code == "exit" {
+		os.Exit(0)
+	}
+}
+
+func initProducts(ngo *netstar.Ngo) {
+
 	dto, err := ngo.Init()
 
 	if err != nil {
@@ -34,8 +75,10 @@ func main() {
 	var goodDto model.GoodDto
 
 	for {
+
 		log.Println("输入商品编号: ")
 		fmt.Scanln(&GoodsNumber)
+		exit(GoodsNumber)
 
 		goodDto, err = ngo.First(GoodsNumber, dto.Data.GoodsDetails)
 
@@ -48,6 +91,24 @@ func main() {
 
 	log.Printf("找到商品：%s %-10f %d %-30s\n", goodDto.GoodsNumber, goodDto.GoodsNbdPrice, goodDto.GoodsStatus, goodDto.GoodsName)
 	ngo.Start(goodDto)
+
+}
+
+func initOrders(ngo *netstar.Ngo) {
+
+	dto, err := ngo.NOrders()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if dto.Data == nil || dto.Data.RecordList == nil || len(dto.Data.RecordList) == 0 {
+		return
+	}
+
+	for index, o := range dto.Data.RecordList {
+		format := utils.TimeFormat(o.OrderCreateTime / 1000)
+		log.Printf("[%-2d] %s %-10f %d %-20s %-30s\n", index, o.GoodsNumber, o.OrderAmount, o.OrderStatus, format, o.GoodsName)
+	}
 
 }
 

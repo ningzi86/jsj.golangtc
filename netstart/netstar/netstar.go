@@ -9,10 +9,6 @@ import (
 	"time"
 )
 
-var NetError6 = errors.New("原力不足")
-var NetError11 = errors.New("今日达到上限")
-var NetError7 = errors.New("商品已售罄")
-
 func List() ([]string, error) {
 
 	url := `https://star.8.163.com/api/goods/home/v2/list`
@@ -134,8 +130,8 @@ func ListDetail(goodsNumbers []string) (*model.GoodListDto, error) {
 func Detail(goodsNumber string) (*model.GoodDetailDto, error) {
 
 	if Env == "true" {
-		currentTime := time.Now().Unix() * 1000
-		saleTime := int64(1545534788000 + 60*60*1.5*1000)
+		currentTime := time.Now().UnixNano() / 1000000
+		saleTime := int64(1545573175000 + 30*1000*2)
 
 		m := &model.GoodDetailDto{}
 		m.Data = model.GoodDetail{

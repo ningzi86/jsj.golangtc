@@ -7,8 +7,6 @@ import (
 	"log"
 )
 
-var Env string = "false"
-
 var NetCookie string
 var AddressId int32
 

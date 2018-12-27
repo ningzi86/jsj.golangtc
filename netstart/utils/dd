@@ -1,0 +1,97 @@
+
+		if currentTime >= saleTime {
+			//if currentTime <= (saleTime + 30) {
+
+			log.Printf("准备抢购商品：%s %s", goodsNumber, goodsName)
+
+			n.ready <- dto
+			success := <-n.flag
+			if success {
+				return true, nil
+			}
+
+			if Env == "true" {
+				fmt.Println("测试环境，退出抢购")
+				break
+			}
+
+			n.stopSyncTime()
+			continue
+			//}
+			//return false, fmt.Errorf("当前时间：%s %s 开售时间：%s 超时购买失败：%s %s",
+			//	utils.TimeFormat(currentTime),
+			//	utils.TimeFormat(n.currentTime),
+			//	utils.TimeFormat(saleTime),
+			//	goodsNumber,
+			//	goodsName)
+		} else {
+
+			if currentTime >= saleTime-10 {
+				for {
+					if (n.currentTime < saleTime) {
+						time.Sleep(50 * time.Millisecond)
+						log.Printf("当前时间：%s %s 开售时间：%s 准备抢购 %s %s\n",
+							utils.TimeFormat(currentTime),
+							utils.TimeFormat(n.currentTime),
+							utils.TimeFormat(saleTime), goodsNumber, goodsName)
+						continue
+					}
+					break
+				}
+				log.Printf("准备抢购：%s %s", goodsNumber, goodsName)
+				n.ready <- dto
+				success := <-n.flag
+				if success {
+					return true, nil
+				}
+				continue
+			}
+			log.Printf("当前时间：%s %s 开售时间：%s 剩余：%d秒 未开始 %s %s\n",
+				utils.TimeFormat(currentTime),
+				utils.TimeFormat(n.currentTime),
+				utils.TimeFormat(saleTime),
+				saleTime-currentTime,
+				goodsNumber,
+				goodsName)
+
+			n.stopSyncTime()
+
+			//30-10
+			if currentTime > saleTime-30 {
+				log.Printf("【30-10】%d秒后重试……\n", 3)
+				time.Sleep(3 * time.Second)
+				continue
+			}
+
+			//60-30
+			if currentTime > saleTime-60 {
+				log.Printf("【60-30】%d秒后重试……\n", 20)
+				time.Sleep(20 * time.Second)
+				continue
+			}
+
+			// 300-60
+			if currentTime > saleTime-5*60 {
+				log.Printf("【300-60】%d秒后重试……\n", 50)
+				time.Sleep(time.Second * 50)
+				continue
+			}
+
+			// 1200 - 300
+			if currentTime > saleTime-20*60 {
+				log.Printf("【1200-300】%d秒后重试……\n", 150)
+				time.Sleep(time.Second * 150)
+				continue
+			}
+
+			// 3600 - 1200
+			if currentTime > saleTime-60*60 {
+				log.Printf("【3600-1200】%d秒后重试……\n", 60*18)
+				time.Sleep(time.Second * 60 * 18)
+				continue
+			}
+
+			log.Printf("【?-3600】%d秒后重试……\n", 60*50)
+			time.Sleep(time.Second * 60 * 50)
+			continue
+		}

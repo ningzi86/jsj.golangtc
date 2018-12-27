@@ -16,6 +16,8 @@ type Ngo struct {
 
 	flag     chan bool
 	stopSync chan bool
+
+	timer *time.Ticker
 }
 
 func NewNgo() *Ngo {
@@ -29,6 +31,12 @@ func NewNgo() *Ngo {
 		for {
 			dto := <-ngo.ready
 			log.Printf("开始抢购 %s %s %s", dto.Data.GoodsNumber, dto.Data.GoodsName, dto.Data.BuyToken)
+
+			if Env == "true" {
+				fmt.Println("测试环境，模拟抢购成功，停止抢购")
+				ngo.flag <- true
+				return
+			}
 
 			orderId, err := Buy(dto.Data.GoodsNumber, dto.Data.BuyToken)
 			if err != nil {
@@ -71,15 +79,24 @@ func (Ngo) Init() (*model.GoodListDto, error) {
 
 func (n *Ngo) startSyncTime(currentTime int64) {
 
+	if n.timer != nil {
+		n.timer.Stop()
+	}
+
 	n.currentTime = currentTime
+	n.timer = time.NewTicker(1 * time.Millisecond * 100)
+
 	go func(nn *Ngo) {
 		for {
 			select {
 			case <-nn.stopSync:
-				nn.currentTime = time.Now().Unix()
+				if nn.timer != nil {
+					nn.timer.Stop()
+				}
 				return
-			case <-time.After(1 * time.Second):
-				nn.currentTime ++
+			case <-n.timer.C:
+				nn.currentTime += 100
+				//fmt.Println(nn.currentTime, currentTime, time.Now().UnixNano()/1000000)
 			}
 		}
 	}(n)
@@ -112,6 +129,8 @@ func (n *Ngo) Start(dto model.GoodDto) (bool, error) {
 	goodsNumber := dto.GoodsNumber
 	goodsName := dto.GoodsName
 
+	var secondArrays [][]int32
+
 	for {
 
 		//获取商品详情
@@ -121,16 +140,17 @@ func (n *Ngo) Start(dto model.GoodDto) (bool, error) {
 			time.Sleep(50 * time.Millisecond)
 			continue
 		}
-		currentTime := dto.Data.CurrentTime / 1000
-		n.startSyncTime(currentTime)
+		currentTime := dto.Data.CurrentTime
+		saleTime := dto.Data.SaleTime
 
-		saleTime := dto.Data.SaleTime / 1000
+		leftSeconds := int64(saleTime - currentTime)
+		if len(secondArrays) == 0 {
+			secondArrays = utils.TimeArrays(int32(leftSeconds / 1000))
+		}
 
-		if currentTime >= saleTime {
-			//if currentTime <= (saleTime + 30) {
+		if leftSeconds <= 0 {
 
 			log.Printf("准备抢购商品：%s %s", goodsNumber, goodsName)
-
 			n.ready <- dto
 			success := <-n.flag
 			if success {
@@ -142,87 +162,59 @@ func (n *Ngo) Start(dto model.GoodDto) (bool, error) {
 				break
 			}
 
-			n.stopSyncTime()
 			continue
-			//}
-			//return false, fmt.Errorf("当前时间：%s %s 开售时间：%s 超时购买失败：%s %s",
-			//	utils.TimeFormat(currentTime),
-			//	utils.TimeFormat(n.currentTime),
-			//	utils.TimeFormat(saleTime),
-			//	goodsNumber,
-			//	goodsName)
+
 		} else {
 
-			if currentTime >= saleTime-10 {
-				for {
-					if (n.currentTime < saleTime) {
-						time.Sleep(50 * time.Millisecond)
-						log.Printf("当前时间：%s %s 开售时间：%s 准备抢购 %s %s\n",
-							utils.TimeFormat(currentTime),
-							utils.TimeFormat(n.currentTime),
-							utils.TimeFormat(saleTime), goodsNumber, goodsName)
-						continue
-					}
-					break
-				}
+			arrays := utils.CalTimeArrays(int32(leftSeconds/1000), secondArrays)
+			min := arrays[0] / 2
+
+			fmt.Println("分割时间", arrays)
+			fmt.Println("当前使用", secondArrays)
+			fmt.Printf("剩余时间：%d  超时：%d\n", leftSeconds/1000, min)
+
+			if leftSeconds <= 30*1000 {
+
+				//n.startSyncTime(currentTime)
+				//for {
+				//	if (n.currentTime < saleTime) {
+				//		time.Sleep(50 * time.Millisecond)
+				//		log.Printf("当前时间：%s %s 开售时间：%s 准备抢购 %s %s 系统时间：%s\n",
+				//			utils.TimeFormat(currentTime/1000),
+				//			utils.TimeFormat(n.currentTime/1000),
+				//			utils.TimeFormat(saleTime/1000), goodsNumber, goodsName,
+				//			utils.TimeFormat(time.Now().Unix()))
+				//		continue
+				//	}
+				//	break
+				//}
+				//n.stopSyncTime()
+
 				log.Printf("准备抢购：%s %s", goodsNumber, goodsName)
+
 				n.ready <- dto
 				success := <-n.flag
 				if success {
 					return true, nil
 				}
+
+				continue
+			} else {
+
+				log.Printf("当前时间：%s %s 开售时间：%s 剩余：%d秒 未开始 %s %s\n",
+					utils.TimeFormat(currentTime/1000),
+					utils.TimeFormat(n.currentTime/1000),
+					utils.TimeFormat(saleTime/1000),
+					(saleTime-currentTime)/1000,
+					goodsNumber,
+					goodsName)
+
+				log.Printf("【%d-%d】%d秒后重试……\n", arrays[0], arrays[1], min)
+				<-time.After(time.Second * time.Duration(min))
+
 				continue
 			}
-			log.Printf("当前时间：%s %s 开售时间：%s 剩余：%d秒 未开始 %s %s\n",
-				utils.TimeFormat(currentTime),
-				utils.TimeFormat(n.currentTime),
-				utils.TimeFormat(saleTime),
-				saleTime-currentTime,
-				goodsNumber,
-				goodsName)
-
-			n.stopSyncTime()
-
-			//30-10
-			if currentTime > saleTime-30 {
-				log.Printf("【30-10】%d秒后重试……\n", 3)
-				time.Sleep(3 * time.Second)
-				continue
-			}
-
-			//60-30
-			if currentTime > saleTime-60 {
-				log.Printf("【60-30】%d秒后重试……\n", 30)
-				time.Sleep(30 * time.Second)
-				continue
-			}
-
-			// 5*60-60
-			if currentTime > saleTime-5*60 {
-				log.Printf("【300-30】%d秒后重试……\n", 300)
-				time.Sleep(time.Minute)
-				continue
-			}
-
-			// 20*60 - 5*60
-			if currentTime > saleTime-20*60 {
-				log.Printf("【1200-300】%d分钟后重试……\n", 10)
-				time.Sleep(time.Minute * 10)
-				continue
-			}
-
-			// 60*60 - 20*60
-			if currentTime > saleTime-60*60 {
-				log.Printf("【3600-1200】%d分钟后重试……\n", 30)
-				time.Sleep(time.Minute * 30)
-				continue
-			}
-
-			log.Printf("【?-3600】%d分钟后重试……\n", 50)
-			time.Sleep(time.Minute * 50)
-			continue
 		}
-
 	}
 
 	return false, errors.New("未知错误")

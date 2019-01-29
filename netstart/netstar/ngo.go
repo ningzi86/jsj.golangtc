@@ -27,6 +27,44 @@ func NewNgo() *Ngo {
 	ngo.flag = make(chan bool)
 	ngo.stopSync = make(chan bool)
 
+	//for {
+	//	dto := <-ngo.ready
+	//	go func(dto  *model.GoodDetailDto) {
+	//
+	//		log.Printf("开始抢购 %s %s %s", dto.Data.GoodsNumber, dto.Data.GoodsName, dto.Data.BuyToken)
+	//
+	//		if Env == "true" {
+	//			fmt.Println("测试环境，模拟抢购成功，停止抢购")
+	//			ngo.flag <- true
+	//			return
+	//		}
+	//
+	//		orderId, err := Buy(dto.Data.GoodsNumber, dto.Data.BuyToken)
+	//		if err != nil {
+	//
+	//			if err == NetError6 || err == NetError11 || err == NetError7 {
+	//				log.Printf("抢购失败，停止抢购 %s %s %s", err.Error(), dto.Data.GoodsNumber, dto.Data.GoodsName)
+	//				ngo.flag <- true
+	//				return
+	//			}
+	//
+	//			ngo.flag <- false
+	//			log.Printf("抢购失败，继续抢购 %s %s %s", err.Error(), dto.Data.GoodsNumber, dto.Data.GoodsName)
+	//			return
+	//		}
+	//
+	//		_, err = Pay(orderId)
+	//		if err != nil {
+	//			ngo.flag <- false
+	//			return
+	//		}
+	//		log.Printf("抢购成功 %s %s", dto.Data.GoodsNumber, dto.Data.GoodsName)
+	//		ngo.flag <- true
+	//
+	//
+	//	}(dto)
+	//}
+
 	go func() {
 		for {
 			dto := <-ngo.ready
@@ -192,11 +230,14 @@ func (n *Ngo) Start(dto model.GoodDto) (bool, error) {
 
 				log.Printf("准备抢购：%s %s", goodsNumber, goodsName)
 
-				n.ready <- dto
-				success := <-n.flag
-				if success {
-					return true, nil
-				}
+				go func() {
+					n.ready <- dto
+					success := <-n.flag
+					fmt.Println("抢购状态", success)
+					//if success {
+					//	//return true, nil
+					//}
+				}()
 
 				continue
 			} else {

@@ -29,3 +29,7 @@ tale.sql
 ## 测试一下
 
 logs
+*.exe
+
+netstart
+netstart2

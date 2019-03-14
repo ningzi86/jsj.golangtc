@@ -27,7 +27,7 @@ func Test_Goroutine2(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		go func(i int, jj *int) {
 			for {
-				 //*jj++
+				 *jj++
 				 a[i]++
 				//fmt.Printf("current value is %d \n", i)
 			}

@@ -28,7 +28,7 @@ func Test_Slice01(t *testing.T) {
 	slice1[1] = 100
 
 	//可以追加元素
-	slice1 = append(slice1, 10, 10, 10, 10)
+	slice1 = append(slice1, 10)
 
 	//可以追加切片
 	slice1 = append(slice1, slice2...)
@@ -61,19 +61,19 @@ func Test_Slice012(t *testing.T) {
 	}
 
 	//slice 为引用类型，下面方法改变值时，对应的slice1_2值也会改变
-	fc(slice1, 100)
-	slice1_2 := slice1[1:2]
-	fc(slice1, 101)
+	fc(slice1, 100)  //1 100 3
+	slice1_2 := slice1[1:2] // 100
+	fc(slice1, 101) // 1 101 3
 
 	fmt.Println(slice1, cap(slice1))	// 1,101,3, 3
 	fmt.Println(slice1_2, cap(slice1_2))	// 101, 2
 
 	//append后，slice的cap变大，指向新的内存地址，所以slice1_2值不会再改变
-	slice1 = append(slice1, 4)
-	fc(slice1, 102)
+	slice1 = append(slice1, 4) // 1, 101, 3, 4
+	fc(slice1, 102)	// 1, 102,, 3, 4
 
 	fmt.Println(slice1, cap(slice1))	//1, 102, 3, 4, 6
-	fmt.Println(slice1_2, cap(slice1_2), slice1_2[0:2]) // 101, 2, 101,3
+	fmt.Println(slice1_2, cap(slice1_2), len(slice1_2),  slice1_2[0:2]) // [101] 2 1 [101 3]
 }
 
 func Test_Slice013(t *testing.T) {
@@ -124,7 +124,10 @@ func Test_Slice014(t *testing.T) {
 
 	s := make([]int, 3, 10)
 
-	fmt.Println(s, len(s), cap(s))
+	fmt.Println(s, len(s), cap(s), s[:10])
+
+	s1 := s[:10]
+	fmt.Println(s1, len(s1), cap(s1))
 
 }
 

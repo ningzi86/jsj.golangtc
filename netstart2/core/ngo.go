@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"encoding/json"
 )
 
 type Ngo struct {
@@ -32,6 +33,11 @@ func NewNgo() *Ngo {
 func (n *Ngo) scanNet() {
 	for {
 
+		if (time.Now().Hour() <= 7) {
+			time.Sleep(30 * time.Second)
+			continue
+		}
+
 		account := &model.Account{}
 		accounts, err := account.GetAccounts()
 
@@ -53,16 +59,19 @@ func (n *Ngo) scanNet() {
 
 		if err != nil {
 			logs.Error("查询网络商品信息出错", err)
-			time.Sleep(30 * time.Second)
+			time.Sleep(20 * time.Second)
 			continue
 		}
+
+		b, _ := json.Marshal(goods)
+		logs.Info("扫描结果", string(b))
 
 		err = act2.Save(goods)
 		if err != nil {
 			logs.Error("保存网络商品信息出错", err)
 		}
 
-		time.Sleep(30 * time.Second)
+		time.Sleep(20 * time.Second)
 	}
 }
 

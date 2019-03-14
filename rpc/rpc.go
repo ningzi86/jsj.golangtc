@@ -1,6 +1,6 @@
 package rpcdemo
 
-import "github.com/getlantern/errors"
+import "errors"
 
 type DemoService struct {
 }

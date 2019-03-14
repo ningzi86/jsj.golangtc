@@ -3,7 +3,6 @@ package tests
 import (
 	"fmt"
 	"strconv"
-	"sync"
 	"testing"
 )
 
@@ -113,26 +112,26 @@ func Test_Map04(t *testing.T) {
 
 func Test_Map05(t *testing.T) {
 
-	var lk sync.Mutex
+	//var lk sync.Mutex
 	ch := make(chan int, 2)
 
 	mp := make(map[int]string, 10)
 	go func(m map[int]string) {
-		lk.Lock()
+		//lk.Lock()
 		for i := 0; i < 10; i++ {
 			m[i] = strconv.Itoa(i)
 		}
-		lk.Unlock()
+		//lk.Unlock()
 		ch <- 1
 	}(mp)
 
 	go func(m map[int]string) {
 
-		lk.Lock()
+		//lk.Lock()
 		for i := 20; i < 30; i++ {
 			m[i] = strconv.Itoa(i)
 		}
-		lk.Unlock()
+		//lk.Unlock()
 		ch <- 1
 	}(mp)
 

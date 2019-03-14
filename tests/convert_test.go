@@ -45,8 +45,8 @@ func Test_Convert01(t *testing.T)  {
     fmt.Println(i)
     fmt.Println(u)
 
-    fmt.Println(b1)
-    fmt.Println(f1)
+    fmt.Println("b1", b1)
+    fmt.Println("f1", f1)
     fmt.Println(i1)
     fmt.Println(u1)
 

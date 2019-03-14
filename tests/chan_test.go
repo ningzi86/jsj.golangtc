@@ -116,7 +116,7 @@ func _Test_Chan06(t *testing.T) {
 }
 
 // https://gobyexample.com/non-blocking-channel-operations
-func _Test_Chan07(t *testing.T) {
+func Test_Chan0700(t *testing.T) {
 
 	messages := make(chan string)
 	signals := make(chan bool)
@@ -147,7 +147,7 @@ func _Test_Chan07(t *testing.T) {
 
 }
 
-func _Test_chan08(t *testing.T) {
+func Test_chan0800(t *testing.T) {
 
 	jobs := make(chan int, 5)
 	done := make(chan bool)
@@ -175,7 +175,7 @@ func _Test_chan08(t *testing.T) {
 }
 
 // https://gobyexample.com/range-over-channels
-func _Test_chan09(t *testing.T) {
+func Test_chan09(t *testing.T) {
 	queue := make(chan string, 2)
 	queue <- "one"
 	queue <- "two"

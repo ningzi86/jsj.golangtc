@@ -14,7 +14,7 @@ func Test_Aggregate(t *testing.T) {
 		input interface{}
 		want  interface{}
 	}{
-		{[]string{"apple", "mango", "orange", "passionfruit", "grape"}, "passionfruit"},
+		{[]string{"abc", "ab", "a", "e", "grape"}, "passionfruit"},
 		{[]string{}, nil},
 	}
 

@@ -41,7 +41,7 @@ func _Test_Pointer01(t *testing.T) {
 
 }
 
-func _Test_Pointer02(t *testing.T) {
+func Test_Pointer02(t *testing.T) {
 
 	var i int
 	i = 1
